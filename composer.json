@@ -1,0 +1,17 @@
+{
+    "name": "bredi/teste",
+    "description": "teste",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rd7.rodrigo",
+            "email": "rd7.rodrigo@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Cafe\\": "vendor/rd7/src/"
+        }
+    }
+}

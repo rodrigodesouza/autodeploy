@@ -1,0 +1,23 @@
+{
+    "name": "rd7/autodeploy",
+    "description": "autodeploy em php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "rd7.rodrigo",
+            "email": "rd7.rodrigo@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/routing": "^5.8",
+        "illuminate/events": "^5.8",
+        "illuminate/console": "^5.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rd7\\": "src/",
+            "Cafe\\": "src/"
+        },
+        "classmap": ["commands"]
+    }
+}
