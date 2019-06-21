@@ -1,0 +1,33 @@
+{
+    "name": "rd7/autodeploy",
+    "description": "",
+    "authors": [
+        {
+            "name": "Rodrigo de Souza",
+            "email": "rd7.rodrigo@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rd7\\Autodeploy\\Providers\\AutodeployServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Rd7\\Autodeploy\\": "src/"
+        }
+    },
+    "require": {
+        "jolicode/jolinotif": "^2.0",
+        "nunomaduro/laravel-console-task": "^1.2",
+        "illuminate/routing": "^5.8",
+        "illuminate/events": "^5.8",
+        "illuminate/console": "^5.8",
+        "illuminate/config": "^5.8"
+    }
+}

@@ -7,14 +7,24 @@
  * @contributor Matt Stauffer
  * @contributor https://github.com/jwalton512
  * @contributor https://github.com/dead23angel
+ * 
+ *  "autoload": {
+*        "files": [
+*            "vendor/rodrigodesouza/laravel-autodeploy/index.php"
+*        ]
+*    },
+* arquivo index.php
+*    require_once __DIR__ . '/../../autoload.php';
+*   dentro de vendor/rodrigodesouza/laravel-autodeploy
  */
 
+require_once __DIR__ . '/../../vendor/autoload.php'; //Develop
 
-require_once __DIR__ . '/../autoload.php';
+// require_once __DIR__ . '/../../autoload.php';
+//dentro de vendor/rodrigodesouza/laravel-autodeploy
 
 
 use Illuminate\Console\Application;
-
 
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
@@ -35,12 +45,15 @@ $events = new Dispatcher($container);
 // Create the router instance
 $router = new Router($events, $container);
 // Load the routes
-require_once 'routes.php';
-require_once 'commands/HelloWord.php';
+require_once 'src/Deploy/routes.php';
+
+
+
+//require_once 'commands/HelloWord.php';
 // Create the redirect instance
 
 
-$artisan = new Application($container, $events, 'Version 1');
+//$artisan = new Application($container, $events, 'Version 1');
 // $artisan->setName('My Console App Name');
 
 // Bind a command
