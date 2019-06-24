@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Config\Repository;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 
 class AutodeployController extends Controller
 {
@@ -40,7 +40,7 @@ class AutodeployController extends Controller
                         }
                     }
                 }
-                Log::info($arrCommand);
+                // Log::info($arrCommand);
 
             }
         } else {
