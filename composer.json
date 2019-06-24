@@ -25,9 +25,9 @@
     "require": {
         "jolicode/jolinotif": "^2.0",
         "nunomaduro/laravel-console-task": "^1.2",
-        "illuminate/routing": "^5.8",
-        "illuminate/events": "^5.8",
-        "illuminate/console": "^5.8",
-        "illuminate/config": "^5.8"
+        "illuminate/routing": "^5.5",
+        "illuminate/events": "^5.5",
+        "illuminate/console": "^5.5",
+        "illuminate/config": "^5.5"
     }
 }
