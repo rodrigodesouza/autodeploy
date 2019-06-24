@@ -6,7 +6,7 @@ $router->get('/api/webhookv2', function () {
 });
 $router->get('/foo', function () {
     // 
-    $config = require __DIR__.'/../Config/config.php';
+    $config = require __DIR__.'/../config/config.php';
     dd($config);
     // Get config using the get method
     $v = require __DIR__ . '/file.php';
@@ -19,9 +19,9 @@ $router->get('/foo', function () {
     return 'hello world!';
 });
 
-$router->group(['namespace' => 'Bredi\LaravelAutodeploy\Controllers', 'prefix' => 'autodeploy'], function (Router $router) {
+$router->group(['namespace' => 'Rd7\Autodeploy\Http\Controllers', 'prefix' => 'autodeploy'], function (Router $router) {
     $router->get('/webhookv2', function(){
-        $config = require __DIR__.'/../Config/config.php';
+        $config = require __DIR__.'/../config/config.php';
 
         dd($config);
         return 'users';
@@ -30,6 +30,7 @@ $router->group(['namespace' => 'Bredi\LaravelAutodeploy\Controllers', 'prefix' =
     $router->post('/users', ['name' => 'users.index', 'uses' => 'UsersController@index']);//->middleware('guest', );
 
     $router->post('/recept', ['name' => 'webhook.index', 'uses' => 'AutodeployController@webhook']);
+    $router->get('/gitlab', ['name' => 'webhook.index', 'uses' => 'AutodeployController@webhook']);
 
     // $router->get('/', ['name' => 'users.index', 'uses' => 'UsersController@index']);
     // $router->post('/', ['name' => 'users.store', 'uses' => 'UsersController@store']);

@@ -6,42 +6,46 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Facades\Log;
 
 class AutodeployController extends Controller
 {
    
     public function webhook(Request $request)
     {
-        $fileConfig = __DIR__ . '/../../Config/config.php';
-        if(file_exists($fileConfig)) {
-            // $config = require $fileConfig;
+        $fileConfig = __DIR__ . '/../../config/config.php';
 
-            $config = new Repository(require $fileConfig);
-            foreach($config->get('commands.servidor') as $command) {
-                dd($command);
+        if ($request->isMethod('post')) {
+
+            if(file_exists($fileConfig)) {
+                $config = new Repository(require $fileConfig);
+
+                $branch = $config->get('branch');
+
+                if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $branch) {
+
+                    if(count($config->get('commands.servidor'))) {   
+                        foreach($config->get('commands.servidor') as $command) {
+
+                            $command = str_replace("{branch}", $branch, $command);
+                            
+                            $prefixo = "cd " . $config->get('folder_git');
+                            $command = $prefixo . " && " . $command;
+                            echo $command . "<br>";
+                            $arrCommand[] = $command;
+
+                            $shell = shell_exec($command);
+                            echo $shell . "<br>";
+                            $arrCommand[] = $shell;
+                        }
+                    }
+                }
+                Log::info($arrCommand);
+
             }
-            
-            dd($config->get('config.name'));
-
-
-            echo "This is coming from config/app.php: <hr>" . $config->get('config.name') . "<br><br><br>";
-            
-
+        } else {
+            echo "get";
         }
-        // echo include 'config.php';
-        dd('aqio');
-
-        dd($v);
-
-        dd(new Repository(), $v);
-        $config = new Repository($v);
-
-        dd($config);
-        // $config = new Repository(require $configPath . 'config.php');
-
-       // echo "This is coming from config/app.php: <hr>" . $config->get('config.name') . "<br><br><br>";
-
-        dd($request->all());
 
     }
 }
