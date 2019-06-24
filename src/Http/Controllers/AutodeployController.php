@@ -13,7 +13,7 @@ class AutodeployController extends Controller
    
     public function webhook(Request $request)
     {
-        $fileConfig = __DIR__ . '/../../config/config.php';
+        $fileConfig = __DIR__ . '/../../config/server.php';
 
         if ($request->isMethod('post')) {
 
