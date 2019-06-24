@@ -67,7 +67,7 @@ class AutodeployCommand extends Command
                 //     return true;
                 // });
 
-                $shell =  "";//shell_exec($prefixo . " 2>&1");
+                $shell =  shell_exec($prefixo . " 2>&1");
                 $needles = config('autodeploy.errors_log');
 
                 $t = preg_match_all( '/\\b(' . join( $needles, '|' ) . ')\\b/i', $shell, $m, PREG_OFFSET_CAPTURE );
