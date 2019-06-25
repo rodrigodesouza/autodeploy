@@ -55,17 +55,15 @@ class AutodeployCommand extends Command
 
             foreach(config('autodeploy.commands.local') as $command) {
                 $success = true;
-                $prefixo = "cd " . config('autodeploy.folder_git');
+                // $prefixo = "cd " . config('autodeploy.folder_git');
                 $command = str_replace("{para}", $this->option('to'), $command);
                 $command = str_replace("{de}", config('autodeploy.deploy_de'), $command);
                 $command = str_replace("{commit}", $commit, $command);
                 
-                $prefixo .= " && " . $command;
+                $prefixo = $command;
+                // $prefixo .= " && " . $command;
 
                 $this->info($command);
-                // $this->task('executando... ' . $command, function () {
-                //     return true;
-                // });
 
                 $shell =  shell_exec($prefixo . " 2>&1");
                 $needles = config('autodeploy.errors_log');
