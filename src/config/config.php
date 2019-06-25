@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'LaravelAutodeploy',
+    'name' => 'Laravel Autodeploy',
     'branch' => env('AUTODEPLOY', 'production'),
     'deploy_de' => env('DEPLOY_DE', 'master'),
     'deploy_para' => env('DEPLOY_PARA', 'production'),
@@ -27,5 +27,6 @@ return [
         ]
     ],
     'folder_git' => '../', //base_path(),
-    'desktop_notification' => true
+    'desktop_notification' => true,
+    'save_request_body' => true
 ];

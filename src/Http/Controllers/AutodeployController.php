@@ -6,27 +6,39 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Config\Repository;
-// use Illuminate\Support\Facades\Log;
 
 class AutodeployController extends Controller
 {
-   
+    public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
+    // public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
+
     public function webhook(Request $request)
     {
-        $fileConfig = __DIR__ . '/../../config/config.php';
+        $appConfig = $this->rootAPP . 'config/autodeploy.php';
+        $packageConfig = __DIR__ . '/../../config/config.php';
 
-        if ($request->isMethod('post')) {
+        if(file_exists($appConfig)) {
+            $fileConfig = $appConfig;
+        } else {
+            $fileConfig = $packageConfig;
+        }
 
-            $input = $request;
+        try {
+            $input = $request->all();
 
-            if(file_exists($fileConfig)) {
-                $config = new Repository(require $fileConfig);
+            $config = new Repository(require $fileConfig);
+
+            if ($request->isMethod('post')) {
+
+                if ($config->get('save_request_body') == true){
+                    $this->saveLog($input);
+                }
 
                 $branch = $config->get('branch');
 
                 if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $branch) {
 
-                    if(count($config->get('commands.servidor'))) {   
+                    if(count($config->get('commands.servidor'))) {
                         foreach($config->get('commands.servidor') as $command) {
 
                             $command = str_replace("{branch}", $branch, $command);
@@ -39,16 +51,25 @@ class AutodeployController extends Controller
                             $shell = shell_exec($command);
                             echo $shell . "<br>";
                             $arrCommand[] = $shell;
+
+                            // return $arrCommand;
                         }
+                        $this->saveLog($arrCommand);
                     }
                 }
-                file_put_contents( __DIR__ . '/../../../../../../storage/logs/deploy-'.date('d-m-Y').'.log', date('d/m/Y H:i:s').' '.json_encode($arrCommand). PHP_EOL, FILE_APPEND);
-                // Log::info($arrCommand);
 
+            } else {
+               return "WELCOME TO AUTODEPLOY!";
             }
-        } else {
-            echo "get";
+
+        } catch (\Exception $e) {
+            return ['error'];
         }
 
+    }
+
+    private function saveLog($input)
+    {
+        file_put_contents( $this->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[". date('Y-m-d H:i:s').'] ' . json_encode($input). PHP_EOL, FILE_APPEND);
     }
 }

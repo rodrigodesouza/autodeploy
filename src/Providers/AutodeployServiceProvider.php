@@ -51,6 +51,11 @@ class AutodeployServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/config.php' => config_path('autodeploy.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../config/config.php' => config_path('autodeploy.php'),
+        ], 'deploy-config');
+
         $this->mergeConfigFrom(
             __DIR__.'/../config/config.php', 'autodeploy'
         );

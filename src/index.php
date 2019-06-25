@@ -1,27 +1,24 @@
 <?php
 /**
- * Illuminate/Routing
- *
- * @source https://github.com/illuminate/routing
- * @contributor Muhammed Gufran
- * @contributor Matt Stauffer
- * @contributor https://github.com/jwalton512
- * @contributor https://github.com/dead23angel
- * 
- *  "autoload": {
+* Laravel Autodeploy
+*
+* @source https://github.com/rodrigodesouza/autodeploy
+* @contributor Rodrigo de Souza
+* 
+* Configurações obrigatórias:
+* No arquivo composer.json da raiz coloque:
+*  "autoload": {
 *        "files": [
-*            "vendor/rodrigodesouza/laravel-autodeploy/index.php"
+*             "vendor/rd7/autodeploy/src/index.php"
 *        ]
 *    },
-* arquivo index.php
-*    require_once __DIR__ . '/../../autoload.php';
-*   dentro de vendor/rodrigodesouza/laravel-autodeploy
- */
+* Fim
+* Caminho do autoload.php em produção:    
+* require_once __DIR__ . '/../../../autoload.php';
+*/
 
 // require_once __DIR__ . '/../../../vendor/autoload.php'; //Develop
-require_once __DIR__ . '/../../../autoload.php';
-//dentro de vendor/rodrigodesouza/laravel-autodeploy
-
+require_once __DIR__ . '/../../../autoload.php'; // Publicar
 
 use Illuminate\Console\Application;
 
@@ -46,11 +43,8 @@ $router = new Router($events, $container);
 // Load the routes
 require_once __DIR__ . '/routes/route.php';
 
-
-
 //require_once 'commands/HelloWord.php';
 // Create the redirect instance
-
 
 //$artisan = new Application($container, $events, 'Version 1');
 // $artisan->setName('My Console App Name');
@@ -59,8 +53,6 @@ require_once __DIR__ . '/routes/route.php';
 // $artisan->resolve(HelloWorld::class);
 
 $redirect = new Redirector(new UrlGenerator($router->getRoutes(), $request));
-// dd($request);
-// dd($router);
 // use redirect
 // return $redirect->home();
 // return $redirect->back();
