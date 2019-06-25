@@ -12,20 +12,22 @@ return [
     ],
     'commands' => [
         'local' => [
-            'git add . && git commit -m "{commit}"',
-            'git pull origin {de}',
-            'git push origin {de}',
-            'git checkout {para}',
-            'git merge {de}',
-            'git add . && git commit -m "{commit}"',
-            'git push origin {para}',
-            'git checkout {de}'
+            'git status',
+            'git branch',
+            // 'git add . && git commit -m "{commit}"',
+            // 'git pull origin {de}',
+            // 'git push origin {de}',
+            // 'git checkout {para}',
+            // 'git merge {de}',
+            // 'git add . && git commit -m "{commit}"',
+            // 'git push origin {para}',
+            // 'git checkout {de}'
         ],
         'servidor' => [
             'git fetch --all',
             'git reset --hard origin/{branch}'
         ]
     ],
-    'folder_git' => base_path(),
+    'folder_git' => '../', //base_path(),
     'desktop_notification' => true
 ];

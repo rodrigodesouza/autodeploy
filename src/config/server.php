@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'name' => 'LaravelAutodeploy',
     'branch' => env('AUTODEPLOY', 'production'),
     'deploy_de' => env('DEPLOY_DE', 'master'),
     'deploy_para' => env('DEPLOY_PARA', 'production'),
@@ -16,6 +15,6 @@ return [
             'git reset --hard origin/{branch}'
         ]
     ],
-    'folder_git' => __DIR__ . '/../../../../../',
+    'folder_git' => '../', //ir para acima da pasta public
     'desktop_notification' => true
 ];
