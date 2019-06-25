@@ -12,16 +12,14 @@ return [
     ],
     'commands' => [
         'local' => [
-            'git status',
-            'git branch',
-            // 'git add . && git commit -m "{commit}"',
-            // 'git pull origin {de}',
-            // 'git push origin {de}',
-            // 'git checkout {para}',
-            // 'git merge {de}',
-            // 'git add . && git commit -m "{commit}"',
-            // 'git push origin {para}',
-            // 'git checkout {de}'
+            'git add . && git commit -m "{commit}"',
+            'git pull origin {de}',
+            'git push origin {de}',
+            'git checkout {para}',
+            'git merge {de}',
+            'git add . && git commit -m "{commit}"',
+            'git push origin {para}',
+            'git checkout {de}'
         ],
         'servidor' => [
             'git fetch --all',
