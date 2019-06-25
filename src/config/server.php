@@ -16,6 +16,6 @@ return [
             'git reset --hard origin/{branch}'
         ]
     ],
-    'folder_git' => __DIR__ . '/../',
+    'folder_git' => __DIR__ . '/../../../../../',
     'desktop_notification' => true
 ];
