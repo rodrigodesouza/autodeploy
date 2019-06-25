@@ -9,8 +9,8 @@ use Illuminate\Config\Repository;
 
 class AutodeployController extends Controller
 {
-    // public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
-    public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
+    public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
+    // public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
 
     public function webhook(Request $request)
     {
