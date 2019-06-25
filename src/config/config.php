@@ -9,6 +9,14 @@ return [
 
     'deploy_para' => env('DEPLOY_PARA', 'production'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Errors
+    |--------------------------------------------------------------------------
+    | Uma lista com possíveis erros que são retornados na linha de comando.
+    | Caso algum texto seja encontrado ao executar os comandos, os próximos comandos serão cancelados.
+    */
+
     'errors_log' => [
         'CONFLICT',
         'error: ',
@@ -16,6 +24,12 @@ return [
     ],
 
     'commands' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Comandos local
+        |--------------------------------------------------------------------------
+        | Coloque aqui os comandos que serão executados na sua máquina
+        */
         'local' => [
             'git add . && git commit -m "{commit}"',
             'git pull origin {de}',
@@ -26,9 +40,18 @@ return [
             'git push origin {para}',
             'git checkout {de}'
         ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Comandos do servidor
+        |--------------------------------------------------------------------------
+        | Coloque aqui os comandos que serão executados no servidor
+        */
         'servidor' => [
             'git fetch --all',
             'git reset --hard origin/{branch}'
+            // executing composer from php script:
+            //`echo '1' | php composer install --no-interaction`
         ]
     ],
     
@@ -37,11 +60,25 @@ return [
     | Folder Git
     |--------------------------------------------------------------------------
     | Não usar helpers como: base_path(),
+    | Caminho para a pasta .git
+    | no servidor, o comando inicia na pasta public, www ou public_html
     | "../" subir a partir da pasta public/www/public_html
     */
     'folder_git' => '../',
+    /*
+    |--------------------------------------------------------------------------
+    | Notificações no Desktop
+    |--------------------------------------------------------------------------
+    | Um aviso na tela aparece depois que for executados todos os comandos
+    */
 
     'desktop_notification' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Request Body
+    |--------------------------------------------------------------------------
+    | Salvar todo o corpo enviado por POST do repositório?
+    */
     'save_request_body' => true
 ];
