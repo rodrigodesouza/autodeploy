@@ -9,8 +9,8 @@ use Illuminate\Config\Repository;
 
 class AutodeployController extends Controller
 {
-    public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
-    // public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
+    // public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
+    public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
 
     public function webhook(Request $request)
     {
@@ -70,6 +70,6 @@ class AutodeployController extends Controller
 
     private function saveLog($input)
     {
-        file_put_contents( $this->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[". date('Y-m-d H:i:s').'] ' . json_encode($input). PHP_EOL, FILE_APPEND);
+        file_put_contents( $this->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[" . date('Y-m-d H:i:s') . "] local.INFO: AUTODEPLOY ". PHP_EOL . "[stacktrace]" . PHP_EOL . json_encode($input). PHP_EOL, FILE_APPEND);
     }
 }

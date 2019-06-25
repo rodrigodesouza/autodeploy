@@ -17,8 +17,8 @@
 * require_once __DIR__ . '/../../../autoload.php';
 */
 
-// require_once __DIR__ . '/../../../vendor/autoload.php'; //Develop
-require_once __DIR__ . '/../../../autoload.php'; // Publicar
+require_once __DIR__ . '/../../../vendor/autoload.php'; //Develop
+// require_once __DIR__ . '/../../../autoload.php'; // Publicar
 
 use Illuminate\Console\Application;
 
