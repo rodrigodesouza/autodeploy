@@ -17,6 +17,8 @@ class AutodeployController extends Controller
 
         if ($request->isMethod('post')) {
 
+            $input = $request;
+
             if(file_exists($fileConfig)) {
                 $config = new Repository(require $fileConfig);
 
@@ -40,6 +42,7 @@ class AutodeployController extends Controller
                         }
                     }
                 }
+                file_put_contents( __DIR__ . '/../../../../../../storage/logs/deploy-'.date('d-m-Y').'.log', date('d/m/Y H:i:s').' '.json_encode($arrCommand). PHP_EOL, FILE_APPEND);
                 // Log::info($arrCommand);
 
             }
