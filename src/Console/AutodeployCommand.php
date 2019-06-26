@@ -146,7 +146,7 @@ class AutodeployCommand extends Command
         $arrCommand = explode(" ", $command);
         // print_r($arrCommand);
         if (in_array('git', $arrCommand) and in_array('checkout', $arrCommand)) {
-            // echo "é um git checklout";
+            echo "é um git checklout";
             $branch     =  end($arrCommand);
             $co         = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();
             
@@ -154,6 +154,7 @@ class AutodeployCommand extends Command
 
             if (!in_array($branch, $branches)) {
                 (new GitRepository($co->get('folder_name_git')))->createBranch($branch);
+                $this->info("branch \"{$branch}\" created");
             }
 
         }

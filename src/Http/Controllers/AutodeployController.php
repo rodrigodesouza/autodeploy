@@ -7,29 +7,29 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Config\Repository;
 use Rd7\Autodeploy\Git\GitRepository;
-// use Rd7\Autodeploy\Config\GetConfig;
+use Rd7\Autodeploy\Config\GetConfig;
 
 class AutodeployController extends Controller
 {
     // public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
-    public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
+    // public $rootAPP =  (new GetConfig)->rootAPP; //__DIR__ . '/../../../../../'; //Developer
 
-    private function getConfig()
-    {
-        $appConfig = $this->rootAPP . 'config/autodeploy.php';
-        $packageConfig = __DIR__ . '/../../config/config.php';
+    // private function getConfig()
+    // {
+    //     $appConfig = $this->rootAPP . 'config/autodeploy.php';
+    //     $packageConfig = __DIR__ . '/../../config/config.php';
 
-        if(file_exists($appConfig)) {
-            $fileConfig = $appConfig;
-        } else {
-            $fileConfig = $packageConfig;
-        }
+    //     if(file_exists($appConfig)) {
+    //         $fileConfig = $appConfig;
+    //     } else {
+    //         $fileConfig = $packageConfig;
+    //     }
 
-        $config = new Repository(require $fileConfig);
+    //     $config = new Repository(require $fileConfig);
 
-        return $config;
+    //     return $config;
 
-    }
+    // }
     public function webhook(Request $request)
     {
         // $appConfig = $this->rootAPP . 'config/autodeploy.php';
@@ -44,8 +44,7 @@ class AutodeployController extends Controller
         try {
             $input = $request->all();
 
-            $config = $this->getConfig();
-
+            $config = (new GetConfig)->getConfig();
             if ($request->isMethod('post')) {
 
                 if ($config->get('save_request_body') == true){
@@ -77,6 +76,7 @@ class AutodeployController extends Controller
                 }
 
             } else {
+                // $this->saveLog($arrCommand);
                return "WELCOME TO AUTODEPLOY!";
             }
 
@@ -88,12 +88,12 @@ class AutodeployController extends Controller
 
     private function saveLog($input)
     {
-        file_put_contents( $this->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[" . date('Y-m-d H:i:s') . "] local.INFO: AUTODEPLOY ". PHP_EOL . "[stacktrace]" . PHP_EOL . json_encode($input). PHP_EOL, FILE_APPEND);
+        file_put_contents( (new GetConfig)->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[" . date('Y-m-d H:i:s') . "] local.INFO: AUTODEPLOY ". PHP_EOL . "[stacktrace]" . PHP_EOL . json_encode($input). PHP_EOL, FILE_APPEND);
     }
 
     public function logs()
     {
         // https://github.com/czproject/git-php
-        return (new GitRepository($this->getConfig()->get('folder_git')))->getLog();
+        return (new GitRepository((new GetConfig)->getConfig()->get('folder_git')))->getLog();
     }
 }

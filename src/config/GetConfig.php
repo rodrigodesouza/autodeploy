@@ -6,13 +6,8 @@ use Illuminate\Config\Repository;
 
 class GetConfig
 {
-    public function __construct()
-    {
-
-    }
-
-    public $rootAPP =  __DIR__ . '/../../../../'; //Developer
-    // public $rootAPP =  __DIR__ . '/../../../../../'; //Production
+    // public $rootAPP =  __DIR__ . '/../../../../'; //Developer
+    public $rootAPP =  __DIR__ . '/../../../../../'; //Production
 
     public function getConfig()
     {
