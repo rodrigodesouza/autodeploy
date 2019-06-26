@@ -144,12 +144,11 @@ class AutodeployCommand extends Command
     private function verificaBranch($command)
     {
         $arrCommand = explode(" ", $command);
-        // print_r($arrCommand);
+        
         if (in_array('git', $arrCommand) and in_array('checkout', $arrCommand)) {
-            echo "é um git checklout";
+
             $branch     =  end($arrCommand);
             $co         = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();
-            
             $branches  = (new GitRepository($co->get('folder_name_git')))->getLocalBranches();
 
             if (!in_array($branch, $branches)) {
@@ -158,6 +157,5 @@ class AutodeployCommand extends Command
             }
 
         }
-        // return (new GitRepository($this->getConfig()))->getLocalBranches();
     }
 }
