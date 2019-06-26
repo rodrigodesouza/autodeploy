@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 use Joli\JoliNotif\Notification;
 use Joli\JoliNotif\NotifierFactory;
+use Rd7\Autodeploy\Git\GitRepository;
+use Rd7\Autodeploy\Config\GetConfig;
 
 class AutodeployCommand extends Command
 {
@@ -42,7 +44,6 @@ class AutodeployCommand extends Command
      */
     public function handle()
     {
-        
         $commit = $this->argument('commit');
 
         if (!isset($commit) || !$commit) {
@@ -64,6 +65,8 @@ class AutodeployCommand extends Command
                 // $prefixo .= " && " . $command;
 
                 $this->info($command);
+                
+                $this->verificaBranch($command);
 
                 $shell =  shell_exec($prefixo . " 2>&1");
                 $needles = config('autodeploy.errors_log');
@@ -136,5 +139,24 @@ class AutodeployCommand extends Command
         return [
             ['to', null, InputOption::VALUE_OPTIONAL, 'An example option.', config('autodeploy.deploy_para')],
         ];
+    }
+
+    private function verificaBranch($command)
+    {
+        $arrCommand = explode(" ", $command);
+        // print_r($arrCommand);
+        if (in_array('git', $arrCommand) and in_array('checkout', $arrCommand)) {
+            // echo "é um git checklout";
+            $branch     =  end($arrCommand);
+            $co         = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();
+            
+            $branches  = (new GitRepository($co->get('folder_name_git')))->getLocalBranches();
+
+            if (!in_array($branch, $branches)) {
+                (new GitRepository($co->get('folder_name_git')))->createBranch($branch);
+            }
+
+        }
+        // return (new GitRepository($this->getConfig()))->getLocalBranches();
     }
 }

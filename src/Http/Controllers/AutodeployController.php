@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Config\Repository;
+use Rd7\Autodeploy\Git\GitRepository;
+// use Rd7\Autodeploy\Config\GetConfig;
 
 class AutodeployController extends Controller
 {
-    public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
-    // public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
+    // public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
+    public $rootAPP =  __DIR__ . '/../../../../../'; //Developer
 
-    public function webhook(Request $request)
+    private function getConfig()
     {
         $appConfig = $this->rootAPP . 'config/autodeploy.php';
         $packageConfig = __DIR__ . '/../../config/config.php';
@@ -23,10 +25,26 @@ class AutodeployController extends Controller
             $fileConfig = $packageConfig;
         }
 
+        $config = new Repository(require $fileConfig);
+
+        return $config;
+
+    }
+    public function webhook(Request $request)
+    {
+        // $appConfig = $this->rootAPP . 'config/autodeploy.php';
+        // $packageConfig = __DIR__ . '/../../config/config.php';
+
+        // if(file_exists($appConfig)) {
+        //     $fileConfig = $appConfig;
+        // } else {
+        //     $fileConfig = $packageConfig;
+        // }
+
         try {
             $input = $request->all();
 
-            $config = new Repository(require $fileConfig);
+            $config = $this->getConfig();
 
             if ($request->isMethod('post')) {
 
@@ -71,5 +89,11 @@ class AutodeployController extends Controller
     private function saveLog($input)
     {
         file_put_contents( $this->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[" . date('Y-m-d H:i:s') . "] local.INFO: AUTODEPLOY ". PHP_EOL . "[stacktrace]" . PHP_EOL . json_encode($input). PHP_EOL, FILE_APPEND);
+    }
+
+    public function logs()
+    {
+        // https://github.com/czproject/git-php
+        return (new GitRepository($this->getConfig()->get('folder_git')))->getLog();
     }
 }

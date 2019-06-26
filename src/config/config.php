@@ -31,14 +31,15 @@ return [
         | Coloque aqui os comandos que serão executados na sua máquina
         */
         'local' => [
-            'git add . && git commit -m "{commit}"',
-            'git pull origin {de}',
-            'git push origin {de}',
-            'git checkout {para}',
-            'git merge {de}',
-            'git add . && git commit -m "{commit}"',
-            'git push origin {para}',
-            'git checkout {de}'
+            'git checkout master'
+            // 'git add . && git commit -m "{commit}"',
+            // 'git pull origin {de}',
+            // 'git push origin {de}',
+            // 'git checkout {para}',
+            // 'git merge {de}',
+            // 'git add . && git commit -m "{commit}"',
+            // 'git push origin {para}',
+            // 'git checkout {de}'
         ],
 
         /*
@@ -65,6 +66,15 @@ return [
     | "../" subir a partir da pasta public/www/public_html
     */
     'folder_git' => '../',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Folder Name Git
+    |--------------------------------------------------------------------------
+    | O nome da pasta git. Padrão .git,
+    */
+    'folder_name_git' => '.git',
+
     /*
     |--------------------------------------------------------------------------
     | Notificações no Desktop
