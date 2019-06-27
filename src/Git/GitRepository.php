@@ -5,7 +5,6 @@ class GitRepository extends \Cz\Git\GitRepository
 {
     public function __construct($folderGit)
     {
-        
         $this->repository = $folderGit;
     }
 
