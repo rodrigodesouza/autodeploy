@@ -11,14 +11,14 @@ use Joli\JoliNotif\NotifierFactory;
 use Rd7\Autodeploy\Git\GitRepository;
 use Rd7\Autodeploy\Config\GetConfig;
 
-class AutodeployCommand extends Command
+class DeployCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'autodeploy:push {commit?} {--to=}';
+    protected $name = 'deploy:push {commit?} {--to=}';
 
     /**
      * The console command description.
