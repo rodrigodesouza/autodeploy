@@ -11,36 +11,8 @@ use Rd7\Autodeploy\Config\GetConfig;
 
 class AutodeployController extends Controller
 {
-    // public $rootAPP =  __DIR__ . '/../../../../../../'; //Production
-    // public $rootAPP =  (new GetConfig)->rootAPP; //__DIR__ . '/../../../../../'; //Developer
-
-    // private function getConfig()
-    // {
-    //     $appConfig = $this->rootAPP . 'config/autodeploy.php';
-    //     $packageConfig = __DIR__ . '/../../config/config.php';
-
-    //     if(file_exists($appConfig)) {
-    //         $fileConfig = $appConfig;
-    //     } else {
-    //         $fileConfig = $packageConfig;
-    //     }
-
-    //     $config = new Repository(require $fileConfig);
-
-    //     return $config;
-
-    // }
     public function webhook(Request $request)
     {
-        // $appConfig = $this->rootAPP . 'config/autodeploy.php';
-        // $packageConfig = __DIR__ . '/../../config/config.php';
-
-        // if(file_exists($appConfig)) {
-        //     $fileConfig = $appConfig;
-        // } else {
-        //     $fileConfig = $packageConfig;
-        // }
-
         try {
             $input = $request->all();
 
@@ -68,7 +40,6 @@ class AutodeployController extends Controller
                             $shell = shell_exec($command);
                             echo $shell . "<br>";
                             $arrCommand[] = $shell;
-
                             // return $arrCommand;
                         }
                         $this->saveLog($arrCommand);
@@ -76,7 +47,6 @@ class AutodeployController extends Controller
                 }
 
             } else {
-                // $this->saveLog($arrCommand);
                return "WELCOME TO AUTODEPLOY!";
             }
 
