@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'Laravel Autodeploy',
+    'name' => 'Laravel Autodeploy 2.0',
 
     'branch' => env('AUTODEPLOY', 'production'),
 
@@ -54,7 +54,7 @@ return [
             //`echo '1' | php composer install --no-interaction`
         ]
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Folder Git

@@ -1,6 +1,8 @@
 <?php
 namespace Rd7\Autodeploy\Git;
 
+use Illuminate\Support\Str;
+
 class GitRepository extends \Cz\Git\GitRepository
 {
     public function __construct($folderGit)
@@ -8,8 +10,20 @@ class GitRepository extends \Cz\Git\GitRepository
         $this->repository = $folderGit;
     }
 
+    public function getRepositoryServer()
+    {
+        $remote = shell_exec('git remote -v  2>&1');
+
+        if (Str::contains($remote, "gitlab")) {
+            return 'gitlab';
+        }
+        if (Str::contains($remote, "github")) {
+            return 'github';
+        }
+    }
+
     public function getLog()
-    {   
+    {
         $git_logs = $this->execute('log');
         // return $repo->getLocalBranches();
         $last_hash = null;

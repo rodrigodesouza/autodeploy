@@ -28,6 +28,8 @@ class AutodeployServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/Migrations');
         $this->commands([
             \Rd7\Autodeploy\Console\AutodeployCommand::class,
+            \Rd7\Autodeploy\Console\DeployCommand::class,
+            \Rd7\Autodeploy\Console\DeployConfigCommand::class,
         ]);
     }
 
@@ -99,7 +101,7 @@ class AutodeployServiceProvider extends ServiceProvider
 
     /**
      * Register an additional directory of factories.
-     * 
+     *
      * @return void
      */
     public function registerFactories()
