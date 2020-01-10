@@ -41,37 +41,22 @@ class DeployConfigCommand extends Command
      */
     public function handle()
     {
-        // $origem = $this->argument('origem');
-        // if (!isset($origem) || !$origem) {
-        // }
-        $config = [];
-        $co         = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();
-        $branchAtual   = (new GitRepository($co->get('folder_name_git')))->getCurrentBranchName();
-        $branches   = (new GitRepository($co->get('folder_name_git')))->getLocalBranches();
+        $config         = [];
+        $co             = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();
+        $branchAtual    = (new GitRepository($co->get('folder_name_git')))->getCurrentBranchName();
+        $branches       = (new GitRepository($co->get('folder_name_git')))->getLocalBranches();
 
-        // print_r($co->get('folder_name_git'));
+        $config['repository_server'] = (new GitRepository($co->get('folder_name_git')))->getRepositoryServer();
+        $config['origem']            = $this->anticipate('Qual o branch de origem?', $branches, $branchAtual);
+        $config['destino']           = $this->ask('Qual o branch de destino?');
+        $config['url_recept']        = $this->ask('(Criando hooks) Informe o endereco que vai receber as atualizacoes');
+        // $config['git_project_id'] = $this->ask('(Criando hooks) Informe o id do projeto no ' . $config['repositoryServer']);
 
-        $config['repositoryServer']   = (new GitRepository($co->get('folder_name_git')))->getRepositoryServer();
+        $returnGitApi   = (new GitRepository($co->get('folder_name_git')))->configInit($config);
+        $success        = ($returnGitApi['success'] == true) ? 'info' : 'false';
 
-        // print_r($repositoryServer);
+        $this->$success($returnGitApi['msg']);
 
-
-
-        $config['origem'] = $this->anticipate('Qual o branch de origem?', $branches, $branchAtual);
-        // echo $origem;
-
-        $config['destino'] = $this->ask('Qual o branch de destino?');
-        // echo $destino;
-        // $destino = $this->argument('destino');
-        // if (!isset($destino) || !$destino) {
-        // }
-
-        $config['endereco'] = $this->ask('endereco');
-        // if (!isset($endereco) || !$endereco) {
-        // }
-        // $endereco = $this->ask('(Criando hooks) Informe o endereco que vai receber as atualizacoes');
-        // echo $endereco;
-        print_r($config);
     }
 
     /**

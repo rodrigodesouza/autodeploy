@@ -31,7 +31,51 @@ class AutodeployController extends Controller
                         foreach($config->get('commands.servidor') as $command) {
 
                             $command = str_replace("{branch}", $branch, $command);
-                            
+
+                            $prefixo = "cd " . $config->get('folder_git');
+                            $command = $prefixo . " && " . $command;
+                            echo $command . "<br>";
+                            $arrCommand[] = $command;
+
+                            $shell = shell_exec($command);
+                            echo $shell . "<br>";
+                            $arrCommand[] = $shell;
+                            // return $arrCommand;
+                        }
+                        $this->saveLog($arrCommand);
+                    }
+                }
+
+            } else {
+               return "WELCOME TO AUTODEPLOY!";
+            }
+
+        } catch (\Exception $e) {
+            return ['error'];
+        }
+
+    }
+    public function gitlab(Request $request)
+    {
+        try {
+            $input = $request->all();
+
+            $config = (new GetConfig)->getConfig();
+            if ($request->isMethod('post')) {
+
+                if ($config->get('save_request_body') == true){
+                    $this->saveLog($input);
+                }
+
+                $branch = $config->get('branch');
+
+                if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $branch) {
+
+                    if(count($config->get('commands.servidor'))) {
+                        foreach($config->get('commands.servidor') as $command) {
+
+                            $command = str_replace("{branch}", $branch, $command);
+
                             $prefixo = "cd " . $config->get('folder_git');
                             $command = $prefixo . " && " . $command;
                             echo $command . "<br>";
