@@ -20,11 +20,20 @@ class GitRepository extends \Cz\Git\GitRepository
 
     private function getIdProject() {
         $r = $this->extractFromCommand('git remote -v  2>&1', function($value) {
+            $urlgit = explode(" ", $value);
             $urlgit = trim(substr($value, 6));
-            if (Str::contains($urlgit, ":")) {
+            if (Str::contains($urlgit, "git@") and Str::contains($urlgit, ":")) {
                 $projeto = explode(':', $urlgit);
                 $projetoName = explode(" ", str_replace("/", "%2F", str_replace(".git", "", $projeto[1])));
                 return trim($projetoName[0]);
+            }
+            if (Str::contains($urlgit, "http://") || Str::contains($urlgit, "https://")) {
+                $projeto = explode('/', $urlgit);
+                $projetoNome = end($projeto);
+                $grupo = $projeto[count($projeto) - 2];
+                $projetoName = $grupo . "%2F" . str_replace(".git", "", $projetoNome);
+
+                return trim($projetoName);
             }
         });
 
@@ -34,9 +43,9 @@ class GitRepository extends \Cz\Git\GitRepository
     private function makeHookGit($config)
     {
 
-        // $rm = $this->getIdProject();
-        // print_r($rm);
-        // exit();
+        $rm = $this->getIdProject();
+        print_r($rm);
+        exit();
 
         $urlRecept          = $this->getUriGitServer($config);
         $git_access_token   = env('GIT_ACCESS_TOKEN');
