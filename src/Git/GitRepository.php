@@ -43,9 +43,9 @@ class GitRepository extends \Cz\Git\GitRepository
     private function makeHookGit($config)
     {
 
-        $rm = $this->getIdProject();
-        print_r($rm);
-        exit();
+        // $rm = $this->getIdProject();
+        // print_r($rm);
+        // exit();
 
         $urlRecept          = $this->getUriGitServer($config);
         $git_access_token   = env('GIT_ACCESS_TOKEN');

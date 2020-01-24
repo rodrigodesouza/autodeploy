@@ -6,12 +6,9 @@ use Illuminate\Config\Repository;
 
 class GetConfig
 {
-    // public $rootAPP =  __DIR__ . '/../../../../'; //Developer
-    public $rootAPP =  __DIR__ . '/../../../../../'; //Production
-
     public function getConfig()
     {
-        $appConfig = $this->rootAPP . 'config/autodeploy.php';
+        $appConfig = $this->rootAPP() . '/config/autodeploy.php';
         $packageConfig = __DIR__ . '/config.php';
 
         if(file_exists($appConfig)) {
@@ -24,5 +21,11 @@ class GetConfig
 
         return $config;
 
+    }
+
+    public function rootAPP()
+    {
+        // return realpath(__DIR__ . '/../../../../'); //Developer
+        return realpath(__DIR__ . '/../../../../../'); //Production
     }
 }

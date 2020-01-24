@@ -68,6 +68,7 @@ class AutodeployController extends Controller
                 }
 
                 $branch = $config->get('branch');
+                dd($branch, 'controller');
 
                 if (isset($input['ref']) and $input['ref'] == 'refs/heads/' . $branch) {
 
@@ -102,7 +103,7 @@ class AutodeployController extends Controller
 
     private function saveLog($input)
     {
-        file_put_contents( (new GetConfig)->rootAPP . 'storage/logs/laravel-'.date('Y-m-d').'.log', "[" . date('Y-m-d H:i:s') . "] local.INFO: AUTODEPLOY ". PHP_EOL . "[stacktrace]" . PHP_EOL . json_encode($input). PHP_EOL, FILE_APPEND);
+        file_put_contents( (new GetConfig)->rootAPP() . '/storage/logs/laravel-'.date('Y-m-d').'.log', "[" . date('Y-m-d H:i:s') . "] local.INFO: AUTODEPLOY ". PHP_EOL . "[stacktrace]" . PHP_EOL . json_encode($input). PHP_EOL, FILE_APPEND);
     }
 
     public function logs()
