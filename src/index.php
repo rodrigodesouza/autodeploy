@@ -4,7 +4,7 @@
 *
 * @source https://github.com/rodrigodesouza/autodeploy
 * @contributor Rodrigo de Souza
-* 
+*
 * Configurações obrigatórias:
 * No arquivo composer.json da raiz coloque:
 *  "autoload": {
@@ -13,7 +13,7 @@
 *        ]
 *    },
 * Fim
-* Caminho do autoload.php em produção:    
+* Caminho do autoload.php em produção:
 * require_once __DIR__ . '/../../../autoload.php';
 */
 

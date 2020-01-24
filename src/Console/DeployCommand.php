@@ -46,6 +46,19 @@ class DeployCommand extends Command
     {
         $commit = $this->argument('commit');
 
+        $co         = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();
+
+        $config['repository_server'] = (new GitRepository($co->get('folder_name_git')))->getRepositoryServer();
+
+        $branch = (new GitRepository($co->get('folder_name_git')))->getHooksList($config);
+
+        print_r($branch);
+        exit;
+
+        if (!isset($branch) || !$branch) {
+            $branch = $this->ask('Qual a descrição do seu commit?');
+        }
+
         if (!isset($commit) || !$commit) {
             $commit = $this->ask('Qual a descrição do seu commit?');
         }
@@ -60,26 +73,26 @@ class DeployCommand extends Command
                 $command = str_replace("{para}", $this->option('to'), $command);
                 $command = str_replace("{de}", config('autodeploy.deploy_de'), $command);
                 $command = str_replace("{commit}", $commit, $command);
-                
+
                 $prefixo = $command;
                 // $prefixo .= " && " . $command;
 
                 $this->info($command);
-                
+
                 $this->verificaBranch($command);
 
                 $shell =  shell_exec($prefixo . " 2>&1");
                 $needles = config('autodeploy.errors_log');
 
                 $t = preg_match_all( '/\\b(' . join( $needles, '|' ) . ')\\b/i', $shell, $m, PREG_OFFSET_CAPTURE );
-                
+
                 if ($t != 0) {
                     $this->error($shell);
-                
+
                     $errors += 1;
                     $msg = "Aconteceu algum erro.";
                     $success = false;
-                    
+
                     $this->task('command: ' . $command, function () use ($success) {
                         return $success;
                     });
@@ -92,29 +105,29 @@ class DeployCommand extends Command
                 $this->task('command: ' . $command, function () use ($success) {
                     return $success;
                 });
-                
+
             }
 
             if (config('autodeploy.desktop_notification')) {
                 $notifier = NotifierFactory::create();
                 $notification = (new Notification())->setTitle('Laravel Autodeploy');
-                
+
                 if ($errors == 0) {
                     $notification
                         ->setBody("Todos os processos foram concluidos! 😎")
                         ->setIcon(__DIR__ . "/../Resources/icons/icon-success.png");
-                        
+
                 } else {
                     $notification
                         ->setBody($msg . " 😱")
                         ->setIcon(__DIR__ . "/../Resources/icons/error.png");
                 }
-    
+
                 $notifier->send($notification);
             }
-            
+
         }
-        
+
     }
 
     /**
@@ -144,7 +157,7 @@ class DeployCommand extends Command
     private function verificaBranch($command)
     {
         $arrCommand = explode(" ", $command);
-        
+
         if (in_array('git', $arrCommand) and in_array('checkout', $arrCommand)) {
             $branch     =  end($arrCommand);
             $co         = (new \Rd7\Autodeploy\Config\GetConfig())->getConfig();

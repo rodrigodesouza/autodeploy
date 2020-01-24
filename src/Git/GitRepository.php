@@ -148,6 +148,53 @@ class GitRepository extends \Cz\Git\GitRepository
         }
     }
 
+    public function getHooksList($config)
+    {
+        // $this->configInit();
+        // $urlRecept          = $this->getUriGitServer($config);
+
+
+
+        $git_access_token   = env('GIT_ACCESS_TOKEN');
+        $git_project_id     = $this->getIdProject();
+        $urlServer = $this->getUrlGitServer($config, $git_project_id);
+
+        $dataHeader = [
+            "PRIVATE-TOKEN: $git_access_token",
+            "Content-Type: application/json",
+            "Accept: application/json"
+        ];
+
+        print_r($urlServer);
+
+        $ch_git = curl_init();
+
+        curl_setopt($ch_git, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch_git, CURLOPT_HTTPHEADER, $dataHeader);
+        curl_setopt($ch_git, CURLOPT_URL, $urlServer);
+        // curl_setopt($ch_git, CURLOPT_GET, true);
+
+        // $payload = json_encode($data, JSON_PRETTY_PRINT);
+        // curl_setopt($ch_git, CURLOPT_POSTFIELDS, $payload);
+
+        $res    = curl_exec($ch_git);
+        $resp   = json_decode($res, true); //json($res);
+
+        $hooks = [];
+
+        if (count($resp) > 0) {
+            foreach ($resp as $hook) {
+                $hooks[] = $hook['push_events_branch_filter'] . " ($hook[url])";
+            }
+        }
+        print_r($hooks);
+        // var_dump($resp[0]);
+
+        // if (isset($resp->message)) {
+
+
+    }
+
     public function getLog()
     {
         $git_logs = $this->execute('log');
